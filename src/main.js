@@ -1,7 +1,7 @@
 // Nathan Altice
 // Updated: 4/26/20
 // Bounding Balls
-// Simple example illustrating Arcade Physics Bodies
+// A simple example illustrating Phaser 3 Arcade Physics Bodies
 
 class Basketball extends Phaser.Scene {
     constructor() {
