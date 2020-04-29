@@ -11,10 +11,10 @@ let config = {
     physics: {
         default: "arcade",
         arcade: {
-            //debug: true
+            debug: true
         }
     },
-    scene: [ Basketball, HoneySpider ],
+    scene: [ Basketball, BodyBumps, HoneySpider ],
 }
 
 let game = new Phaser.Game(config);

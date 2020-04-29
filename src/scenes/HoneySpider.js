@@ -60,7 +60,7 @@ class HoneySpider extends Phaser.Scene {
 		this.wall.scaleY = game.config.height / 30;
 		this.wall.tint = 0xFFBF00;
 	
-		// set up input
+		// create cursors for input
 		cursors = this.input.keyboard.createCursorKeys();
 	}
 
