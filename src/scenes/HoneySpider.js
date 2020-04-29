@@ -5,14 +5,13 @@ class HoneySpider extends Phaser.Scene {
 
 	preload() {
 		// preload assets
-		this.load.image('square', 'assets/img/square.png');
-
-		this.load.path = '../assets/openmoji72x72/';
-		this.load.image('p1', '1F577.png');
-		this.load.image('web', '1F578.png');
-		this.load.image('key', '1F511.png');
-		this.load.image('sensor', '1F192.png');
-		this.load.image('honey', '1F36F.png');
+		this.load.path = 'assets/';
+		this.load.image('square', 'square.png');
+		this.load.image('p1', 'spider.png');
+		this.load.image('web', 'web.png');
+		this.load.image('goldKey', 'key.png');
+		this.load.image('sensor', 'cool.png');
+		this.load.image('honey', 'honey.png');
 	}
 
 	create() {
@@ -24,88 +23,98 @@ class HoneySpider extends Phaser.Scene {
 		// set bg color
 		this.cameras.main.setBackgroundColor("#EEEEEE");
 
-		// add sprites
+		// add physics sprites
+		// 🕸
 		this.web = this.physics.add.sprite(game.config.width/10*9, game.config.height/10*9, 'web');
 		this.web.body.setImmovable(true);
-
+		this.web.body.setSize(24, 24);
+		// 🍯
 		this.honey = this.physics.add.sprite(game.config.width/10*9, game.config.height/4, 'honey');
-
-		this.sensor = this.physics.add.sprite(game.config.width/10, game.config.height-game.height/10, 'sensor');
+		this.honey.body.collideWorldBounds = true;
+		this.honey.body.setSize(40, 40);
+		this.honey.body.setBounce(1);
+		//this.honey.body.setDrag(this.P1_VEL / 4);
+		// 🆒
+		this.sensor = this.physics.add.sprite(game.config.width/10, game.config.height-game.config.height/10, 'sensor');
 		this.sensor.tint = 0xFFBF00;
 		this.sensor.body.setImmovable(true);
-
+		this.sensor.body.setSize(24, 24);
+		// 🕷
 		this.p1 = this.physics.add.sprite(game.config.width/10, game.config.height/10, 'p1');
 		this.p1.body.setSize(24, 24);
 		this.p1.body.setCollideWorldBounds(true);
 
-		this.honey.body.collideWorldBounds = true;
-		this.honey.body.bounce.setTo(0.5, 0.5);
-		this.honey.body.drag.setTo(this.P1_VEL/4, this.P1_VEL/4);
-
 		// make walls group
-		// note that this is a physicsGroup, which will allow us to use the
-		// setAll method to set physics properties for all children of the group
-		// this.walls = game.add.physicsGroup(Phaser.Physics.ARCADE);
-		// make children
-		// this.wall = this.walls.create(game.world.centerX, 0, 'square');
-		// this.wall.scale.y = game.height/30;
-		// this.wall.tint = 0x333333;
-		// this.wall = this.walls.create(game.world.centerX, game.height/3*2, 'square');
-		// this.wall.scale.y = game.height/30;
-		// this.wall.tint = 0x333333;
-		// this.wall = this.walls.create(game.world.centerX, game.height/3, 'square');
-		// this.wall.scale.y = game.height/30;
-		// this.wall.tint = 0xFF0000;
-
-		// this.walls.setAll('body.immovable', true);		
+		// https://photonstorm.github.io/phaser3-docs/Phaser.Types.Physics.Arcade.html#.PhysicsGroupConfig__anchor
+		this.walls = this.physics.add.group({
+			immovable: true
+		});
+		// create children 🍼 inside walls group
+		this.wall = this.walls.create(centerX, 0, 'square').setOrigin(0);
+		this.wall.scaleY = game.config.height / 30;	// make it taaaaaaaall
+		this.wall.tint = 0x333333;
+		this.wall = this.walls.create(centerX, game.config.height / 3 * 2, 'square').setOrigin(0);
+		this.wall.scaleY = game.config.height / 30;
+		this.wall.tint = 0x333333;
+		this.wall = this.walls.create(centerX, game.config.height / 3, 'square').setOrigin(0);
+		this.wall.scaleY = game.config.height / 30;
+		this.wall.tint = 0xFFBF00;
+	
+		// set up input
+		cursors = this.input.keyboard.createCursorKeys();
 	}
 
 	update() {
 		// check collision
-		this.physics.arcade.collide(this.p1, this.walls);
-		this.physics.arcade.collide(this.p1, this.web);
-		this.physics.arcade.collide(this.p1, this.honey);
-		this.physics.arcade.collide(this.honey, this.walls);
-		this.physics.arcade.collide(this.p1, this.key, this.destroyObject, null, this);
-		// check overlaps
+		this.physics.collide(this.p1, this.walls);
+		this.physics.collide(this.p1, this.web);
+		this.physics.collide(this.p1, this.honey);
+		this.physics.collide(this.honey, this.walls);
+		
+		//check overlaps
 		if(!this.key_flag) {
-			this.physics.arcade.overlap(this.p1, this.sensor, this.keyTrigger, null, this);
+			this.physics.overlap(this.p1, this.sensor, this.keyTrigger, null, this);
+		} else {
+			this.physics.collide(this.p1, this.goldKey, this.useKeyOpenWall, null, this);
 		}
 
 		// move p1
-		if(this.input.keyboard.isDown(Phaser.Input.Keyboard.UP)) {
-			this.p1.body.velocity.y = -this.P1_VEL;
+		if(cursors.up.isDown) {
+			this.p1.body.setVelocityY(-this.P1_VEL);
 			this.p1.body.setVelocityX(0);
 			this.p1.rotation = Math.PI;
-		} else if(this.input.keyboard.isDown(Phaser.Input.Keyboard.DOWN)) {
-			this.p1.body.velocity.y = this.P1_VEL;
+		} else if(cursors.down.isDown) {
+			this.p1.body.setVelocityY(this.P1_VEL);
 			this.p1.body.setVelocityX(0);
 			this.p1.rotation = 0;
-		} else if(this.input.keyboard.isDown(Phaser.Input.Keyboard.LEFT)) {
+		} else if(cursors.left.isDown) {
 			this.p1.body.setVelocityX(-this.P1_VEL);
-			this.p1.body.velocity.y = 0;
+			this.p1.body.setVelocityY(0);
 			this.p1.rotation = Math.PI/2;
-		} else if(this.input.keyboard.isDown(Phaser.Input.Keyboard.RIGHT)) {
+		} else if(cursors.right.isDown) {
 			this.p1.body.setVelocityX(this.P1_VEL);
-			this.p1.body.velocity.y = 0;
+			this.p1.body.setVelocityY(0);
 			this.p1.rotation = Math.PI*3/2;
 		} else {
 			this.p1.body.setVelocityX(0);
-			this.p1.body.velocity.y = 0;
+			this.p1.body.setVelocityY(0);
 		}
 	}
 
 	keyTrigger() {
-		// add key to world, give it physics, and set key flag
-		this.key = this.physics.add.sprite(game.config.width/10, game.config.height/10, 'key');
+		// add key to world, set key flag, and untint 🆒 sensor
+		this.goldKey = this.physics.add.sprite(100, 100, 'goldKey');
+		this.goldKey.body.setSize(24, 24);
+		this.goldKey.setAngle(45);
 		this.key_flag = true;
+		this.sensor.setTint();
 	}
 
-	destroyObject(player, collided) {
-		if(collided.key === 'key') {
-			this.wall.kill();
+	useKeyOpenWall(player, collided) {
+		if(collided.texture.key === 'goldKey') {
+			this.wall.destroy();
 		}
-		collided.kill();
+		collided.destroy();
 	}
 
 }

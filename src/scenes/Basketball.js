@@ -34,6 +34,13 @@ class Basketball extends Phaser.Scene {
         phantomBall.setDebugBodyColor(0xFACADE);
 
         // info text
-        this.add.text(centerX, game.config.height - 32, 'basketball.png original dimensions 128x128').setOrigin(0.5);
+        this.add.text(centerX, game.config.height - 64, 'basketball.png original dimensions 128x128').setOrigin(0.5);
+        this.add.text(centerX, game.config.height - 32, 'S for next Scene').setOrigin(0.5);
+
+        // define cursors and S key (for Scene switching)
+        swap = this.input.keyboard.addKey('S');
+        swap.on('down', () => {
+            this.scene.start("honeySpiderScene");
+        });
     }
 }

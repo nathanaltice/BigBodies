@@ -11,7 +11,7 @@ let config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true
+            //debug: true
         }
     },
     scene: [ Basketball, HoneySpider ],
@@ -19,7 +19,9 @@ let config = {
 
 let game = new Phaser.Game(config);
 
-// a few globals
+// a few global/reserved variables
 let centerX = game.config.width/2;
 let widthSpacer = game.config.width/5;
 let halfHeight = game.config.height/2;
+let swap = null;
+let cursors = null;
