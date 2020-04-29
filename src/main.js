@@ -1,7 +1,7 @@
 // Nathan Altice
-// Updated: 4/28/20
+// Updated: 4/29/20
 // Bounding Balls
-// Some examples illustrating Phaser 3 Arcade Physics bodies and collision detection
+// Some examples illustrating Phaser 3 Arcade Physics bodies and multiple collision detection techniques
 
 // game config
 let config = {

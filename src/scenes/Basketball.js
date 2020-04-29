@@ -22,7 +22,6 @@ class Basketball extends Phaser.Scene {
         ball02.setDebugBodyColor(0xFFFF00);
         ball02.setAngularVelocity(10);
 
-        // note that scaling the sprite affects the relative position of the physics body
         let ball03 = this.physics.add.sprite(widthSpacer*3, halfHeight, 'basketball').setScale(0.5);
         ball03.body.setSize(100, 50);
         ball03.setDebugBodyColor(0xFFFF00);
