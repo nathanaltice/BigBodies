@@ -36,7 +36,7 @@ class BodyBumps extends Phaser.Scene {
         this.soccer.setCollideWorldBounds(true);
 
         // info text
-        this.message = this.add.text(centerX, 32, 'Awaiting collision events...').setOrigin(0.5);
+        this.message = this.add.text(centerX, 32, 'Awaiting physics world events...').setOrigin(0.5);
         this.add.text(centerX, game.config.height - 64, 'Use cursor keys to move soccer ball').setOrigin(0.5);
         this.add.text(centerX, game.config.height - 32, 'S for next Scene').setOrigin(0.5);
 
