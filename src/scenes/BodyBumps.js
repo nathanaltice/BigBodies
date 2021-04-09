@@ -1,13 +1,13 @@
 class BodyBumps extends Phaser.Scene {
     constructor() {
-        super("bodyBumpsScene");
+        super('bodyBumpsScene');
     }
 
     create() {
         // some variables
         this.ballVelocity = 300;
 
-        // add basketballs to scene
+        // add basketball to scene
         this.basketball = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
         this.basketball.setDebugBodyColor(0xFFFF00);
         this.basketball.setCollideWorldBounds(true);
@@ -29,9 +29,9 @@ class BodyBumps extends Phaser.Scene {
 
         this.soccer = this.physics.add.sprite(widthSpacer*4, halfHeight, 'soccer');
         this.soccer.body.setCircle(this.soccer.width/2);
-        this.soccer.body.onCollide = true; // must be set for collision event to work
-        this.soccer.body.onWorldBounds = true; // ditto for worldbounds
-        this.soccer.body.onOverlap = true; // ditto for overlap
+        this.soccer.body.onCollide = true;      // must be set for collision event to work
+        this.soccer.body.onWorldBounds = true;  // ditto for worldbounds
+        this.soccer.body.onOverlap = true;      // ditto for overlap
         this.soccer.setDebugBodyColor(0xFFFF00);
         this.soccer.setCollideWorldBounds(true);
 
@@ -41,7 +41,7 @@ class BodyBumps extends Phaser.Scene {
         this.add.text(centerX, game.config.height - 32, 'S for next Scene').setOrigin(0.5);
 
         // create physics world events
-        // note: you MUST use a .collide/.overlap check in update() AND set body.onCollide to true for these to work
+        // note: you MUST use a .collide/.overlap check in update() AND set body.onCollide/body.onOverlap/.onWorldBounds to true for these to work
         this.physics.world.on('collide', (obj1, obj2, body1, body2)=>{
             this.message.text = `${obj1.texture.key} is colliding with ${obj2.texture.key} body`;
         });
@@ -68,8 +68,8 @@ class BodyBumps extends Phaser.Scene {
         this.physics.collide(this.soccer, this.tennis);
         this.physics.collide(this.basketball, this.tennis);
         // check overlaps
-        this.physics.overlap(this.soccer, this.football);
-        this.physics.overlap(this.basketball, this.football); // note that this won't trip the world overlap signal
+        this.physics.overlap(this.soccer, this.football);   // note that this won't trip the world overlap signal
+        this.physics.overlap(this.basketball, this.football); 
 
         // player input
         if(cursors.left.isDown) {

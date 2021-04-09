@@ -14,13 +14,13 @@ class Basketball extends Phaser.Scene {
     create() {
         // add basketballs to scene
         let ball01 = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
-        ball01.setDebugBodyColor(0xFFFF00);
+        ball01.setDebugBodyColor(0xFF0000);
 
         // use setSize to decrease physics body size
         let ball02 = this.physics.add.sprite(widthSpacer*2, halfHeight, 'basketball');
         ball02.body.setSize(20, 40);
         ball02.setDebugBodyColor(0xFFFF00);
-        ball02.setAngularVelocity(10);
+        ball02.body.setAngularVelocity(10);
 
         let ball03 = this.physics.add.sprite(widthSpacer*3, halfHeight, 'basketball').setScale(0.5);
         ball03.body.setSize(100, 50);
