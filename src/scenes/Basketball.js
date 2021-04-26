@@ -12,26 +12,33 @@ class Basketball extends Phaser.Scene {
     }
 
     create() {
-        // add basketballs to scene
+        // basketball scaled with default body
+        // note that physics bodies scale with the sprite
         let ball01 = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
         ball01.setDebugBodyColor(0xFF0000);
 
         // use setSize to decrease physics body size
+        // https://newdocs.phaser.io/docs/3.54.0/Phaser.Physics.Arcade.Body#setSize
+        // .setSize(width, height, center)
         let ball02 = this.physics.add.sprite(widthSpacer*2, halfHeight, 'basketball');
         ball02.body.setSize(20, 40);
         ball02.setDebugBodyColor(0xFFFF00);
         ball02.body.setAngularVelocity(10);
 
+        // physics body with offset
         let ball03 = this.physics.add.sprite(widthSpacer*3, halfHeight, 'basketball').setScale(0.5);
-        ball03.body.setSize(100, 50);
-        ball03.setDebugBodyColor(0xFFFF00);
+        ball03.body.setSize(75, 50, false);
+        ball03.body.offset.x = 75;
+        ball03.body.offset.y = 100; // or .setOffset(75, 200)
+        ball03.setDebugBodyColor(0x00BB11);
         ball03.body.setAngularVelocity(-20);
 
+        // circle body
         let ball04 = this.physics.add.sprite(widthSpacer*4, halfHeight, 'basketball');
         ball04.body.setCircle(ball04.width/2);
-        ball04.setDebugBodyColor(0xFFFF00);
+        ball04.setDebugBodyColor(0xFADBAD);
 
-        // lastly, add physics body with no texture
+        // lastly, a physics body with no texture
         let phantomBall = this.physics.add.sprite(centerX, game.config.height/5);
         phantomBall.body.setCircle(50);
         phantomBall.setDebugBodyColor(0xFACADE);

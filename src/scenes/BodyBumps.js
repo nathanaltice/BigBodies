@@ -4,23 +4,20 @@ class BodyBumps extends Phaser.Scene {
     }
 
     create() {
-        // some variables
-        this.ballVelocity = 300;
+        // velocity constant
+        this.BALL_VELOCITY = 300;
 
-        // add basketball to scene
         this.basketball = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
         this.basketball.setDebugBodyColor(0xFFFF00);
         this.basketball.setCollideWorldBounds(true);
         this.basketball.setBounce(1);
 
-        // use setSize to decrease physics body size
         this.football = this.physics.add.sprite(widthSpacer*2, halfHeight, 'football');
         this.football.body.setSize(20, 40);
         this.football.setDebugBodyColor(0x00FF00);
         this.football.setAngularVelocity(10);
 
-        // note that scaling the sprite affects the relative position of the physics body
-        this.tennis = this.physics.add.sprite(widthSpacer*3, halfHeight, 'tennis');
+        this.tennis = this.physics.add.sprite(widthSpacer*3, halfHeight, 'tennis').setScale(0.5);
         this.tennis.body.setCircle(50);
         this.tennis.setDebugBodyColor(0xFACADE);
         this.tennis.body.setAngularVelocity(-20);
@@ -73,17 +70,17 @@ class BodyBumps extends Phaser.Scene {
 
         // player input
         if(cursors.left.isDown) {
-            this.soccer.body.setVelocityX(-this.ballVelocity);
+            this.soccer.body.setVelocityX(-this.BALL_VELOCITY);
         } else if(cursors.right.isDown) {
-            this.soccer.body.setVelocityX(this.ballVelocity);
+            this.soccer.body.setVelocityX(this.BALL_VELOCITY);
         } else {
             this.soccer.body.setVelocityX(0);
         }
         
         if(cursors.up.isDown) {
-            this.soccer.body.setVelocityY(-this.ballVelocity);
+            this.soccer.body.setVelocityY(-this.BALL_VELOCITY);
         } else if(cursors.down.isDown) {
-            this.soccer.body.setVelocityY(this.ballVelocity);
+            this.soccer.body.setVelocityY(this.BALL_VELOCITY);
         } else {
             this.soccer.body.setVelocityY(0);
         }

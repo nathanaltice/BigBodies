@@ -52,12 +52,15 @@ class HoneySpider extends Phaser.Scene {
 		// create children 🍼 inside walls group
 		this.wall = this.walls.create(centerX, 0, 'square').setOrigin(0);
 		this.wall.scaleY = game.config.height / 30;	// make it taaaaaaaall
+		this.wall.scaleX = 3;
 		this.wall.tint = 0x333333;
 		this.wall = this.walls.create(centerX, game.config.height / 3 * 2, 'square').setOrigin(0);
 		this.wall.scaleY = game.config.height / 30;
+		this.wall.scaleX = 3;
 		this.wall.tint = 0x333333;
 		this.wall = this.walls.create(centerX, game.config.height / 3, 'square').setOrigin(0);
 		this.wall.scaleY = game.config.height / 30;
+		this.wall.scaleX = 3;
 		this.wall.tint = 0xFFBF00;
 	
 		// create cursors for input
