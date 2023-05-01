@@ -12,13 +12,12 @@ class Basketball extends Phaser.Scene {
     }
 
     create() {
-        // basketball scaled with default body
-        // note that physics bodies scale with the sprite
+        // basketball scaled with default body (physics bodies scale with the sprite)
         let ball01 = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
         ball01.setDebugBodyColor(0xFF0000);
 
         // use setSize to decrease physics body size
-        // https://newdocs.phaser.io/docs/3.54.0/Phaser.Physics.Arcade.Body#setSize
+        // https://newdocs.phaser.io/docs/3.60.0/Phaser.Physics.Arcade.Body#setSize
         // .setSize(width, height, center)
         let ball02 = this.physics.add.sprite(widthSpacer*2, halfHeight, 'basketball');
         ball02.body.setSize(20, 40);

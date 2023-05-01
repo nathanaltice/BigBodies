@@ -10,7 +10,7 @@ class BodyBumps extends Phaser.Scene {
         this.basketball = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
         this.basketball.setDebugBodyColor(0xFFFF00);
         this.basketball.setCollideWorldBounds(true);
-        this.basketball.setBounce(1);
+        this.basketball.setBounce(0.5);
 
         this.football = this.physics.add.sprite(widthSpacer*2, halfHeight, 'football');
         this.football.body.setSize(20, 40);
@@ -69,20 +69,24 @@ class BodyBumps extends Phaser.Scene {
         this.physics.overlap(this.basketball, this.football); 
 
         // player input
+        this.direction = new Phaser.Math.Vector2(0);
         if(cursors.left.isDown) {
-            this.soccer.body.setVelocityX(-this.BALL_VELOCITY);
+            this.direction.x = -1;
+            //this.soccer.body.setVelocityX(-this.BALL_VELOCITY);
         } else if(cursors.right.isDown) {
-            this.soccer.body.setVelocityX(this.BALL_VELOCITY);
-        } else {
-            this.soccer.body.setVelocityX(0);
-        }
-        
+            this.direction.x = 1;
+            //this.soccer.body.setVelocityX(this.BALL_VELOCITY);
+        }  
         if(cursors.up.isDown) {
-            this.soccer.body.setVelocityY(-this.BALL_VELOCITY);
+            this.direction.y = -1;
+            //this.soccer.body.setVelocityY(-this.BALL_VELOCITY);
         } else if(cursors.down.isDown) {
-            this.soccer.body.setVelocityY(this.BALL_VELOCITY);
-        } else {
-            this.soccer.body.setVelocityY(0);
+            this.direction.y = 1;
+            //this.soccer.body.setVelocityY(this.BALL_VELOCITY);
         }
+        this.direction.normalize();
+        this.soccer.setVelocityX(this.direction.x * this.BALL_VELOCITY);
+        this.soccer.setVelocityY(this.direction.y * this.BALL_VELOCITY);
+
     }
 }

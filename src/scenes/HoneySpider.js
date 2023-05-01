@@ -32,8 +32,8 @@ class HoneySpider extends Phaser.Scene {
 		this.honey = this.physics.add.sprite(game.config.width/10*9, game.config.height/4, 'honey');
 		this.honey.body.collideWorldBounds = true;
 		this.honey.body.setSize(40, 40);
-		this.honey.body.setBounce(1);
-		//this.honey.body.setDrag(this.P1_VEL / 4);
+		this.honey.body.setBounce(0.8);
+
 		// 🆒
 		this.sensor = this.physics.add.sprite(game.config.width/10, game.config.height-game.config.height/10, 'sensor');
 		this.sensor.tint = 0xFFBF00;
@@ -44,27 +44,33 @@ class HoneySpider extends Phaser.Scene {
 		this.p1.body.setSize(24, 24);
 		this.p1.body.setCollideWorldBounds(true);
 
-		// make walls group
+		// add walls group
 		// https://photonstorm.github.io/phaser3-docs/Phaser.Types.Physics.Arcade.html#.PhysicsGroupConfig__anchor
 		this.walls = this.physics.add.group({
 			immovable: true
 		});
 		// create children 🍼 inside walls group
-		this.wall = this.walls.create(centerX, 0, 'square').setOrigin(0);
-		this.wall.scaleY = game.config.height / 30;	// make it taaaaaaaall
-		this.wall.scaleX = 3;
-		this.wall.tint = 0x333333;
-		this.wall = this.walls.create(centerX, game.config.height / 3 * 2, 'square').setOrigin(0);
-		this.wall.scaleY = game.config.height / 30;
-		this.wall.scaleX = 3;
-		this.wall.tint = 0x333333;
-		this.wall = this.walls.create(centerX, game.config.height / 3, 'square').setOrigin(0);
-		this.wall.scaleY = game.config.height / 30;
-		this.wall.scaleX = 3;
-		this.wall.tint = 0xFFBF00;
+		this.wallTop = this.walls.create(centerX, 0, 'square').setOrigin(0);
+		this.wallTop.scaleY = game.config.height / 30;	// make it taaaaaaaall
+		this.wallTop.scaleX = 4;
+		this.wallTop.tint = 0x333333;
+
+		this.wallBtm = this.walls.create(centerX, game.config.height / 3 * 2, 'square').setOrigin(0);
+		this.wallBtm.scaleY = game.config.height / 30;
+		this.wallBtm.scaleX = 4;
+		this.wallBtm.tint = 0x333333;
+		
+		this.door = this.walls.create(centerX, game.config.height / 3, 'square').setOrigin(0);
+		this.door.scaleY = game.config.height / 30;
+		this.door.scaleX = 4;
+		this.door.tint = 0xFFBF00;
 	
-		// create cursors for input
+		// define cursors and S key (for Scene switching)
 		cursors = this.input.keyboard.createCursorKeys();
+		swap = this.input.keyboard.addKey('S');
+		swap.on('down', () => {
+			this.scene.start("basketballScene");
+		});
 	}
 
 	update() {
@@ -78,7 +84,10 @@ class HoneySpider extends Phaser.Scene {
 		if(!this.key_flag) {
 			this.physics.overlap(this.p1, this.sensor, this.keyTrigger, null, this);
 		} else {
-			this.physics.collide(this.p1, this.goldKey, this.useKeyOpenWall, null, this);
+			this.physics.collide(this.p1, this.goldKey, (player, collided) => {
+				this.door.destroy();
+				collided.destroy();
+			}, null, this);
 		}
 
 		// move p1
@@ -112,12 +121,4 @@ class HoneySpider extends Phaser.Scene {
 		this.key_flag = true;
 		this.sensor.setTint();
 	}
-
-	useKeyOpenWall(player, collided) {
-		if(collided.texture.key === 'goldKey') {
-			this.wall.destroy();
-		}
-		collided.destroy();
-	}
-
 }
