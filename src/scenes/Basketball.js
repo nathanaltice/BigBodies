@@ -9,6 +9,7 @@ class Basketball extends Phaser.Scene {
         this.load.image('football', 'football.png');
         this.load.image('tennis', 'tennis.png');
         this.load.image('soccer', 'soccer.png');
+        this.load.image('net', 'net.png');
     }
 
     create() {

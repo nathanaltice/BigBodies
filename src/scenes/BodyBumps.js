@@ -7,10 +7,14 @@ class BodyBumps extends Phaser.Scene {
         // velocity constant
         this.BALL_VELOCITY = 300;
 
-        this.basketball = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
-        this.basketball.setDebugBodyColor(0xFFFF00);
-        this.basketball.setCollideWorldBounds(true);
-        this.basketball.setBounce(0.5);
+        this.soccer = this.physics.add.sprite(widthSpacer*4, halfHeight, 'soccer');
+        this.soccer.body.setCircle(this.soccer.width/2);
+        this.soccer.body.onCollide = true;      // must be set for collision event to work
+        this.soccer.body.onWorldBounds = true;  // ditto for worldbounds
+        this.soccer.body.onOverlap = true;      // ditto for overlap
+        this.soccer.setDebugBodyColor(0xFFFF00);
+        this.soccer.setCollideWorldBounds(true);
+        this.soccer.setDepth(10);               // keep soccer ball on top
 
         this.football = this.physics.add.sprite(widthSpacer*2, halfHeight, 'football');
         this.football.body.setSize(20, 40);
@@ -22,15 +26,36 @@ class BodyBumps extends Phaser.Scene {
         this.tennis.setDebugBodyColor(0xFACADE);
         this.tennis.body.setAngularVelocity(-20);
         this.tennis.body.setImmovable(true);
-        this.tennis.body.onCollide = true; // must be set for collision event to work
+        this.tennis.body.onCollide = true;
 
-        this.soccer = this.physics.add.sprite(widthSpacer*4, halfHeight, 'soccer');
-        this.soccer.body.setCircle(this.soccer.width/2);
-        this.soccer.body.onCollide = true;      // must be set for collision event to work
-        this.soccer.body.onWorldBounds = true;  // ditto for worldbounds
-        this.soccer.body.onOverlap = true;      // ditto for overlap
-        this.soccer.setDebugBodyColor(0xFFFF00);
-        this.soccer.setCollideWorldBounds(true);
+        this.basketball = this.physics.add.sprite(widthSpacer, halfHeight, 'basketball').setScale(0.5);
+        this.basketball.setDebugBodyColor(0xFFFF00);
+        this.basketball.setCollideWorldBounds(true);
+        this.basketball.setBounce(0.5);
+        this.basketball.body.onCollide = true;
+        this.basketball.body.onWorldBounds = true;
+        this.basketball.body.onOverlap = true;
+
+        // add net 🥅 with compound physics bodies
+        this.topNet = this.add.image(centerX, 100, 'net').setOrigin(0.5, 0);
+        // create the compound bodies
+        this.topNetBack = this.physics.add.image(centerX, 108);         // back of net
+        this.topNetBack.setSize(128, 16);
+        this.topNetBack.setDebugBodyColor(0x0000FF);
+        this.topNetBack.setImmovable(true);
+        this.topNetBack.onCollide = true;
+        this.topNetLPost = this.physics.add.image(centerX - 72, 116);   // top left post
+        this.topNetLPost.setSize(16, 32);
+        this.topNetLPost.setImmovable(true);
+        this.topNetLPost.setBounce(1);
+        this.topNetLPost.onCollide = true;
+        this.topNetRPost = this.physics.add.image(centerX + 72, 116);   // top right post
+        this.topNetRPost.setSize(16, 32);
+        this.topNetRPost.setImmovable(true);
+        this.topNetRPost.setBounce(1);
+        this.topNetRPost.onCollide = true;
+        // add the compound bodies to a group
+        this.netGroup = this.add.group([this.topNetBack, this.topNetLPost, this.topNetRPost]);
 
         // info text
         this.message = this.add.text(centerX, 32, 'Awaiting physics world events...').setOrigin(0.5);
@@ -64,6 +89,8 @@ class BodyBumps extends Phaser.Scene {
         this.physics.collide(this.soccer, this.basketball);
         this.physics.collide(this.soccer, this.tennis);
         this.physics.collide(this.basketball, this.tennis);
+        this.physics.collide(this.soccer, this.netGroup);
+        this.physics.collide(this.basketball, this.netGroup);
         // check overlaps
         this.physics.overlap(this.soccer, this.football);   // note that this won't trip the world overlap signal
         this.physics.overlap(this.basketball, this.football); 
