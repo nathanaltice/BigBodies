@@ -69,7 +69,7 @@ class HoneySpider extends Phaser.Scene {
 		cursors = this.input.keyboard.createCursorKeys();
 		swap = this.input.keyboard.addKey('S');
 		swap.on('down', () => {
-			this.scene.start("basketballScene");
+			this.scene.start("colliderScene");
 		});
 	}
 

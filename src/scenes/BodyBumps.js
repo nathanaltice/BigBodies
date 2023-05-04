@@ -99,17 +99,13 @@ class BodyBumps extends Phaser.Scene {
         this.direction = new Phaser.Math.Vector2(0);
         if(cursors.left.isDown) {
             this.direction.x = -1;
-            //this.soccer.body.setVelocityX(-this.BALL_VELOCITY);
         } else if(cursors.right.isDown) {
             this.direction.x = 1;
-            //this.soccer.body.setVelocityX(this.BALL_VELOCITY);
         }  
         if(cursors.up.isDown) {
             this.direction.y = -1;
-            //this.soccer.body.setVelocityY(-this.BALL_VELOCITY);
         } else if(cursors.down.isDown) {
             this.direction.y = 1;
-            //this.soccer.body.setVelocityY(this.BALL_VELOCITY);
         }
         this.direction.normalize();
         this.soccer.setVelocityX(this.direction.x * this.BALL_VELOCITY);

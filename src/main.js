@@ -14,7 +14,7 @@ let config = {
             debug: true
         }
     },
-    scene: [ Basketball, BodyBumps, HoneySpider ],
+    scene: [ Basketball, BodyBumps, HoneySpider, Collider ],
 }
 
 let game = new Phaser.Game(config);
