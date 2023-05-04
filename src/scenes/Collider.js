@@ -13,10 +13,10 @@ class Collider extends Phaser.Scene {
         this.soccer.setDepth(10);               // keep soccer ball on top
 
         this.platform = this.physics.add.sprite(centerX, halfHeight - widthSpacer, 'square')
-        this.platform.setScale(10, 1);
+        this.platform.setScale(30, 2);
         this.platform.setImmovable(true);
 
-        this.physics.add.collider(this.soccer, this.platform, this.collisionCallback, this.collisionProcessCallback, this);
+        this.physics.add.collider(this.soccer, this.platform, null, this.collisionProcessCallback, this);
 
         cursors = this.input.keyboard.createCursorKeys();
         swap = this.input.keyboard.addKey('S');
@@ -45,10 +45,6 @@ class Collider extends Phaser.Scene {
         this.soccer.setVelocityX(this.direction.x * this.BALL_VELOCITY);
         this.soccer.setVelocityY(this.direction.y * this.BALL_VELOCITY);
 
-    }
-
-    collisionCallback(obj1, obj2) {
-        console.log('collision callback');
     }
 
     collisionProcessCallback(obj1, obj2) {
