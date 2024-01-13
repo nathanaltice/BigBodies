@@ -1,7 +1,7 @@
 // Nathan Altice
-// Updated: 5/1/23
+// Updated: 1/13/24
 // Big Bodies
-// Some examples illustrating Phaser 3 Arcade Physics bodies and multiple collision detection techniques
+// Examples illustrating Phaser 3 Arcade Physics bodies and multiple collision detection techniques
 
 // game config
 let config = {
@@ -17,11 +17,11 @@ let config = {
     scene: [ Basketball, BodyBumps, HoneySpider, Collider ],
 }
 
-let game = new Phaser.Game(config);
+let game = new Phaser.Game(config)
 
 // a few global/reserved variables
-let centerX = game.config.width/2;
-let widthSpacer = game.config.width/5;
-let halfHeight = game.config.height/2;
-let swap = null;
-let cursors = null;
+let centerX = game.config.width/2
+let widthSpacer = game.config.width/5
+let halfHeight = game.config.height/2
+let swap = null
+let cursors = null
